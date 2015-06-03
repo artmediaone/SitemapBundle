@@ -15,11 +15,11 @@ class SitemapCommand extends ContainerAwareCommand
         $this->setName('amo:sitemap:generate')
                 ->setDescription('Generate sitemap file');
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getContainer()->get('amo_sitemap.manager')->generate();
         $output->writeln('<info>Processing ...</info>');
+        $this->getContainer()->get('amo_sitemap.manager')->generate();
         $output->writeln('<info>Finished successfully.</info>');
     }
 }
