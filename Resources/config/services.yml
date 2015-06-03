@@ -1,0 +1,4 @@
+services:
+    amo_sitemap.manager:
+        class: Amo\SitemapBundle\Service\Sitemap
+        arguments: [@service_container]

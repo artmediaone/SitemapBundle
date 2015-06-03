@@ -1,0 +1,30 @@
+{
+    "name" : "amo/sitemap-bundle",
+    "description" : "A sitemap bundle",
+    "type" : "symfony-bundle",
+    "authors" : [{
+        "name" : "Florin",
+        "email" : "is.florin@yahoo.com"
+    }],
+    "keywords" : [
+        "sitemap bundle"
+    ],
+    "license" : [
+        "MIT"
+    ],
+    "require" : {
+    },
+    "autoload" : {
+        "psr-0" : {
+            "Amo\\SitemapBundle" : ""
+        }
+    },
+    "target-dir" : "Amo/SitemapBundle",
+    "repositories" : [{
+    }],
+    "extra" : {
+    "branch-alias" : {
+            "dev-master" : "1.0-dev"
+        }
+    }
+}
