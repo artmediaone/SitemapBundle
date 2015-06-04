@@ -5,10 +5,14 @@ namespace Amo\SitemapBundle\Service;
 class Sitemap
 {
     protected $container;
-    
+    protected $scanned;
+    protected $results;
+
     public function __construct($container)
     {
         $this->container = $container;
+        $this->scanned = array();
+        $this->results = array();
     }
     public function generate()
     {
@@ -17,15 +21,19 @@ class Sitemap
         {
             $this->save($results);
         }
+        else
+        {
+            var_dump('empty');
+        }
     }
-    
+
     private function path($p)
     {
         $a = explode('/', $p);
         $length = strlen($a[count($a) - 1]);
         return (substr($p, 0, strlen($p) - $length));
     }
-    
+
     private function getUrl($url)
     {
         $ch = curl_init();
@@ -35,17 +43,14 @@ class Sitemap
         curl_close($ch);
         return $data;
     }
-    
+
     private function scan($url)
     {
-        $scanned = array();
-        $results = array();
-        array_push($scanned, $url);
+        array_push($this->scanned, $url);
         $html = $this->getUrl($url);
         $a1 = explode('<a', $html);
         foreach($a1 as $key => $val)
         {
-            
             $parts = explode('>', $val);
             $a = $parts[0];
             $aparts = explode('href=', $a);
@@ -56,16 +61,17 @@ class Sitemap
                 $href = str_replace("\"", '', $hrefparts2[0]);
                 if((substr($href, 0, 7) != "http://") && (substr($href, 0, 8) != 'https://') && (substr($href, 0, 6) != 'ftp://'))
                 {
-                    if(isset($href[0]) && $href[0] == '/') 
+                    if(isset($href[0]) && $href[0] == '/')
                     {
-                        $href = "$scanned[0]$href";
+                        $href = $this->scanned[0].$href;
                     }
                     else
                     {
                         $href = $this->path($url) . $href;
                     }
+
                 }
-                if(substr($href, 0, strlen($scanned[0])) == $scanned[0])
+                if(substr($href, 0, strlen($this->scanned[0])) == $this->scanned[0])
                 {
                     $ignore = false;
                     if(isset($skip))
@@ -78,17 +84,18 @@ class Sitemap
                             }
                         }
                     }
-                    if(!$ignore && !in_array($href, $scanned))
+                    if(!$ignore && !in_array($href, $this->scanned))
                     {
-                        $results[] = $href;
-                        $this->scan($href);
+                        var_dump($href);
+                        $this->results[] = $href;
+                        $this->scan($href, $this->scanned, $this->results);
                     }
                 }
             }
         }
-        return $results;
+        return $this->results;
     }
-    
+
     private function save($data)
     {
         $pf = fopen($this->container->getParameter('amo_sitemap.dir') . $this->container->getParameter('amo_sitemap.filename'), 'w');
