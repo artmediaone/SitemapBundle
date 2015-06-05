@@ -1,6 +1,6 @@
 {
     "name" : "amo/sitemap-bundle",
-    "description" : "A sitemap bundle",
+    "description" : "A crawler sitemap bundle",
     "type" : "symfony-bundle",
     "authors" : [{
         "name" : "Florin",
@@ -13,6 +13,12 @@
         "MIT"
     ],
     "require" : {
+        "php": ">=5.4.0",
+        "symfony/browser-kit": "~2.1",
+        "symfony/css-selector": "~2.1",
+        "symfony/dom-crawler": "~2.1",
+        "guzzlehttp/guzzle": ">=4,<6",
+        "fabpot/goutte": "2.0.4"
     },
     "autoload" : {
         "psr-0" : {
