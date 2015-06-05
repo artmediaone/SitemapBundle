@@ -7,16 +7,24 @@ class Sitemap
     protected $container;
     protected $scanned;
     protected $results;
+    protected $dir;
+    protected $filename;
+    protected $frequency;
+    protected $priority;
 
     public function __construct($container)
     {
         $this->container = $container;
         $this->scanned = array();
         $this->results = array();
+        $this->dir = $this->container->get('kernel')->getRootDir() . '../web';
+        $this->filename = 'sitemap.xml';
+        $this->frequency = 'daily';
+        $this->priority = 1;
     }
-    public function generate()
+    public function generate($base_url)
     {
-        $results = $this->scan($this->container->getParameter('amo_sitemap.url'));
+        $results = $this->scan($base_url);
         if(count($results) > 0)
         {
             $this->save($results);
@@ -98,7 +106,7 @@ class Sitemap
 
     private function save($data)
     {
-        $pf = fopen($this->container->getParameter('amo_sitemap.dir') . $this->container->getParameter('amo_sitemap.filename'), 'w');
+        $pf = fopen($this->dir . $this->filename, 'w');
         $header = '<?xml version="1.0" encoding="UTF-8"?>
 <urlset
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -112,8 +120,8 @@ class Sitemap
         {
             $entry = '<url>'.$new_line;
             $entry .= '<loc>'.$item.'</loc>'.$new_line;
-            $entry .= '<changefreq>'.$this->container->getParameter('amo_sitemap.freq').'</changefreq>'.$new_line;
-            $entry .= '<priority>'.$this->container->getParameter('amo_sitemap.priority').'</priority>'.$new_line;
+            $entry .= '<changefreq>'.$this->frequency.'</changefreq>'.$new_line;
+            $entry .= '<priority>'.$this->priority.'</priority>'.$new_line;
             $entry .= '</url>'.$new_line;
             fwrite($pf, $entry);
         }

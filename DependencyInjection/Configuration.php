@@ -19,19 +19,6 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('amo_sitemap');
-        
-        $rootNode->children()
-                ->scalarNode('url')
-                ->end()
-                ->scalarNode('filename')
-                ->end()
-                ->scalarNode('dir')
-                ->end()
-                ->scalarNode('freq')
-                ->end()
-                ->scalarNode('priority')
-                ->end()
-        ;
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
