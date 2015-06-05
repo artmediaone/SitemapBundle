@@ -185,6 +185,7 @@ class Crawler
             '@^javascript\:.*$@i',
             '@^#.*@',
             '@^mailto\:.*@i',
+            '([^\s]+(\.(?i)(jpg|png|gif|bmp))$)',
         );
 
         foreach ($stop_links as $ptrn) {
