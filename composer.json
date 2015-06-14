@@ -3,8 +3,8 @@
     "description" : "A crawler sitemap bundle",
     "type" : "symfony-bundle",
     "authors" : [{
-        "name" : "Florin",
-        "email" : "is.florin@yahoo.com"
+        "name" : "Art Media One",
+        "email" : "contact@artmediaone.ro"
     }],
     "keywords" : [
         "sitemap bundle"
