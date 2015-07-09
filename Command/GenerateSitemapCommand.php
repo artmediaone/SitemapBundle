@@ -106,7 +106,7 @@ class GenerateSitemapCommand  extends ContainerAwareCommand
             }
 
             $url = $xmlDoc->createElement('url');
-            $loc = $xmlDoc->createElement('loc', $link['absolute_url']);
+            $loc = $xmlDoc->createElement('loc', htmlspecialchars($link['absolute_url'], ENT_XML1, 'UTF-8'));
 
             $changefreq = $xmlDoc->createElement('changefreq', $frequency);
             $priority = $xmlDoc->createElement('priority', '1.00');
